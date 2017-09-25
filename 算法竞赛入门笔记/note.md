@@ -2,14 +2,16 @@
 
 ## 目录
 
-* [数据结构](#dataStructure)
-  * [队列](#queue)
-  * [栈](#stack)
-  * [二叉树](#binaryTree)
+* [数据结构](#数据结构)
+  * [队列](#队列（queue）)
+  * [栈](#栈（stack）)
+  * [二叉树](#二叉树（BinaryTree）)
+* [算法](#算法)
+  * [枚举法](#枚举法)
 
-## <span id="dataStructure">数据结构</span>
+## 数据结构
 
-### <span id="queue">队列（queue）</span>
+### 队列（queue）
 
 * 先到先出（FIFO）
 * front/rear 队首队尾
@@ -47,7 +49,7 @@ queue.push(2) //[1,2]
 queue.shift() //[2]
 ```
 
-### <span id="stack">栈（stack）</span>
+### 栈（stack）
 
 * 后到先出（LIFO）
 * stach/top 指向栈顶元素
@@ -67,19 +69,19 @@ while(stack[0]){
 }
 ```
 
-### <span id="binaryTree">二叉树</span>
+### 二叉树
 
 * 根节点，左子树、右子树组成
 * 遍历
   * 宽（广）度优先（Breadth-First Search, BFS）
   * 深度优先（Depth-First Search, DFS）
-    * [先序遍历DLR](#DLR)
-    * [中序遍历LDR](#LDR)
-    * [后序遍历LRD](#LRD)
-* [二叉排序（搜索）树](#BST)
+    * [先序遍历DLR](#示例：先序遍历)
+    * [中序遍历LDR](#示例：中序遍历)
+    * [后序遍历LRD](#示例：后序遍历)
+* [二叉搜索（排序）树](#示例：二叉搜索树)
 * [二叉平衡树](#)
 
-示例：新建节点
+#### 示例：新建节点
 
 ```js
 
@@ -90,7 +92,7 @@ const node = (data) => ({
 })
 ```
 
-示例：按照宽度优先插入节点，结合队列来实现
+#### 示例：按照宽度优先插入节点，结合队列来实现
 
 ```js
 const insert = (tree, data) => {
@@ -119,7 +121,7 @@ const insert = (tree, data) => {
 }
 ```
 
-<span id="DLR">示例：先序遍历</span>
+#### 示例：先序遍历
 
 ```js
 // 递归
@@ -146,7 +148,7 @@ const PreOrder = (node) => {
 }
 ```
 
-<span id="LDR">示例：中序遍历</span>
+#### 示例：中序遍历
 
 ```js
 // 递归
@@ -176,7 +178,7 @@ const InOrder = (node) => {
 }
 ```
 
-<span id="LRD">示例：后序遍历</span>
+#### 示例：后序遍历
 
 ```js
 // 递归
@@ -208,7 +210,7 @@ const PostOrder = (node) => {
 }
 ```
 
-示例：实验
+#### 示例：实验
 
 ```js
 let tree = null
@@ -220,7 +222,7 @@ for(let i=0;i<data.length;i++){
 console.log(JSON.stringify(tree, null, 2))
 ```
 
-<span id="BST">示例：二叉排序树</span>
+#### 示例：二叉搜索树
 
 ```js
 const insertBST = (tree, data) => {
@@ -248,3 +250,8 @@ const insertBST = (tree, data) => {
   return tree
 }
 ```
+
+## 算法
+
+### 枚举法
+
