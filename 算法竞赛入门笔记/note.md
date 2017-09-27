@@ -8,6 +8,11 @@
   * [二叉树](#二叉树BinaryTree)
 * [算法](#算法)
   * [枚举法](#枚举法)
+* [排序算法](#排序算法)
+  * [冒泡排序](#冒泡排序)
+  * [插入排序](#插入排序)
+  * [希尔排序](#希尔排序)
+  * [简单选择](#简单选择)
 
 ## 数据结构
 
@@ -69,15 +74,14 @@ while(stack[0]){
 }
 ```
 
-### 二叉树
+### 二叉树（BinaryTree）
 
 * 根节点，左子树、右子树组成
-* 遍历
-  * 宽（广）度优先（Breadth-First Search, BFS）
-  * 深度优先（Depth-First Search, DFS）
-    * [先序遍历DLR](#示例先序遍历)
-    * [中序遍历LDR](#示例中序遍历)
-    * [后序遍历LRD](#示例后序遍历)
+* 宽（广）度优先（Breadth-First Search, BFS）
+* 深度优先（Depth-First Search, DFS）
+  * [先序遍历DLR](#示例先序遍历)
+  * [中序遍历LDR](#示例中序遍历)
+  * [后序遍历LRD](#示例后序遍历)
 * [二叉搜索（排序）树](#示例二叉搜索树)
 * [二叉平衡树](#)
 
@@ -200,8 +204,12 @@ const PostOrder = (node) => {
     while(s1.length !== 0) {
       node = s1.pop()
       s2.push(node)
-      node.left ? s1.push(node.left) : 0
-      node.right ? s1.push(node.right) : 0
+      if(node.left){
+        s1.push(node.left)
+      }
+      if(node.right){
+        s1.push(node.right)
+      }
     }
     while(s2.length !== 0) {
       console.log(s2.pop().value);
@@ -255,3 +263,147 @@ const insertBST = (tree, data) => {
 
 ### 枚举法
 
+通过适当的计算进行枚举
+
+### 枚举排列
+
+## 排序算法
+
+
+| 名称            | 平均情况                      | 最好              |最坏                |辅助空间         |稳定性
+| :--------      | :--------                    | :--               |:--                |:--             |:--        
+| 冒泡排序         | O(n<sup>2</sup>)             |O(n)              |O(n<sup>2</sup>)   |O(1)            |稳定
+| 插入排序         | O(n<sup>2</sup>)             |O(n)              |O(n<sup>2</sup>)   |O(1)            |稳定
+| 希尔排序         | O(n log n)~O(n<sup>2</sup>)  |O(n<sup>1.3</sup>)|O(n<sup>2</sup>)   |O(1)            |不稳定
+| 简单选择排序     | O(n<sup>2</sup>)              |O(n<sup>2</sup>)  |O(n<sup>2</sup>)   |O(1)            |稳定
+| 堆排序          | O(n log n)                    |O(n log n)        |O(n log n)         |O(1)            |不稳定
+| 归并排序        | O(n log n)                    |O(n log n)         |O(n log n)         |O(n)            |稳定
+| 快速排序        | O(n log n)                    |O(n log n)         |O(n<sup>2</sup>)   |O(log n)~O(n)   |不稳定
+
+### 冒泡排序
+
+* 冒泡排序时间复杂度最好的情况为O(n)，最坏的情况是O(n^2)
+* 基本思想是：两两比较相邻记录的关键字，如果反序则交换 
+
+```js
+const bubbleSort = (arr) => {
+  let flag = arr.length
+  while (flag > 0) {
+    let k = flag
+    flag = 0
+    for (j = 1; j < k; j++) {
+      if (arr[j - 1] > arr[j]) {
+        [arr[j - 1], arr[j]] = [arr[j], arr[j - 1]]
+        flag = j
+      }
+    }
+    console.log(k, flag)
+  }
+  return arr
+}
+```
+
+### 插入排序
+
+* 插入排序：将一个记录插入到已经排好序的有序表中，从而得到一个新的，记录数增 1 的有序表
+* 时间复杂度也为O(n^2)，比冒泡法和选择排序的性能要更好一些
+
+```js
+const InsertionSort = (arr) => {
+  let temp, j
+  for (let i = 0; i < arr.length; i++) {
+    temp = arr[i]
+    for (j = i; j > 0 && temp < arr[j - 1]; j--) {
+      arr[j] = arr[j - 1]
+    }
+    arr[j] = temp
+  }
+  return arr
+}
+```
+
+### 希尔排序
+
+* 先将整个待排元素序列分割成若干子序列（由相隔某个“增量”的元素组成的）分别进行直接插入排序，然后依次缩减增量再进行排序，待整个序列中的元素基本有序（增量足够小）时，再对全体元素进行一次直接插入排序（增量为1）。
+* 其时间复杂度为O(n^3/2),要好于直接插入排序的O(n^2)
+
+```js
+const ShellSort = (arr) => {
+  for (let step =  Math.floor(arr.length / 2); step > 0; step = Math.floor(step / 2)) {
+    let j
+    for (let i = step; i < arr.length; i++) {
+      let temp = arr[i]
+      for (j = i - step; j >= 0 && arr[j] > temp; j -= step) {
+        arr[j + step] = arr[j]
+      }
+      arr[j + step] = temp
+    }
+  }
+  return arr
+}
+```
+
+### 简单选择
+
+* 简单选择排序(simple selection sort) 就是通过 n-i 次关键字之间的比较,从 n-i+1 个记录中选择关键字最小的记录,并和第i(1<=i<=n)个记录交换之
+* 尽管与冒泡排序同为O(n^2),但简单选择排序的性能要略优于冒泡排序
+
+```js
+const selectSort = (arr) => {
+  let minIndex, sum = 0
+  for (let i = 0; i < arr.length; i++) {
+    minIndex = i
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[minIndex] > arr[j]) {
+        minIndex = j
+      }
+    }
+    let temp = arr[i]
+    arr[i] = arr[minIndex]
+    arr[minIndex] = temp
+  }
+  return arr
+}
+```
+
+### 堆排序
+
+* 将待排序的序列构造成一个大顶堆。
+* 此时，整个序列的最大值就是堆顶的根结点。将它移走(其实就是将其与堆数组的末尾元素交换，此时末尾元素就是最大值)，然后将剩余的 n-1 个序列重新构造成一个堆，这样就会得到n个元素的次大值。
+* 如此反复执行，便能得到一个有序序列了
+* 时间复杂度为 O(nlogn),好于冒泡,简单选择,直接插入的O(n^2)
+
+```js
+const heapSort = (arr) => {
+  const swap = (array, i, j) => {
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  const maxHeapify = (arr, index, num) => {
+    console.log(index, arr)
+    let iLeft = 2 * index + 1
+    let iRight = 2 * (index + 1)
+    let iMax = index
+    if (iLeft < num && arr[index] < arr[iLeft]) {
+      iMax = iLeft
+    }
+    if (iRight < num && arr[iMax] < arr[iRight]) {
+      iMax = iRight
+    }
+    if (iMax !== index) {
+      swap(arr, iMax, index)
+      maxHeapify(arr, iMax, num)
+    }
+  }
+
+  for (let i = Math.floor((arr.length - 1) / 2); i >= 0; i--) {
+    maxHeapify(arr, i)
+  }
+  for (let i = arr.length - 1; i > 0; i--) {
+    swap(arr, 0, i)
+    maxHeapify(arr, 0, i)
+  }
+  return arr
+}
+```
