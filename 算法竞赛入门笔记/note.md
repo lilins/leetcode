@@ -8,11 +8,15 @@
   * [二叉树](#二叉树BinaryTree)
 * [算法](#算法)
   * [枚举法](#枚举法)
+  * [枚举排列](#枚举排列)
+  * [枚举组合](#枚举组合)
+  * [回溯法]（#回溯法）
 * [排序算法](#排序算法)
   * [冒泡排序](#冒泡排序)
   * [插入排序](#插入排序)
   * [希尔排序](#希尔排序)
   * [简单选择](#简单选择)
+  * [堆排序](#堆排序)
 
 ## 数据结构
 
@@ -266,6 +270,55 @@ const insertBST = (tree, data) => {
 通过适当的计算进行枚举
 
 ### 枚举排列
+
+```js
+const permutation = (select, input, arr, current) => {
+  if (input === current) {
+    console.log(arr)
+  } else {
+    for (let i = 0; i < input; i++) {
+      let ok = 1
+      for (let j = 0; j < current; j++) {
+        ok = arr[j] === select[i] ? 0 : ok
+      }
+      if (ok) {
+        arr[current] = select[i]
+        permutation(select, input, arr, current + 1)
+      }
+    }
+  }
+}
+
+const select = ['a','a','b','c']
+let set = new Set(select)
+permutation(Array.from(set), set.size, [], 0)
+```
+### 枚举组合
+
+```js
+const subset = (set, size, arr, current) => {
+  if(current === size){
+    console.log(set.filter((item,index)=>{return arr[index]}).splice(0,current))
+  }else{
+    arr[current] = 1
+    subset(set, size, arr, current+1)
+    arr[current] = 0
+    subset(set, size, arr, current+1)
+  }
+}
+
+const select = ['a', 'b', 'a', 'c', 'd']
+let set = new Set()
+select.forEach(item => set.add(item))
+subset(Array.from(set), set.size, [], 0)
+```
+
+### 回溯法
+
+把问题分成若干步骤并递归求解时，如果当前步骤没有合法选择，则函数返回上一级递归调用。
+
+#### 八皇后问题
+
 
 ## 排序算法
 

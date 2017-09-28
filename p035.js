@@ -1,4 +1,5 @@
-// Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+// Given a sorted array and a target value, return the index if the target is found.
+// If not, return the index where it would be if it were inserted in order.
 
 // You may assume no duplicates in the array.
 
@@ -22,8 +23,6 @@ var searchInsert = function(nums, target) {
           break
       }else if(nums!==0&&target>nums[i-1]){
           result = i
-      }else{
-          
       }
   }
   return result

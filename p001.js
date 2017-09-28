@@ -14,12 +14,17 @@ log = common.log
 var twoSum = function(nums, target) {
   var temp = []
   nums.forEach(function(item,index){
-      temp[item] = index
+      temp[item] ? temp[item].push(index) : temp[item] = [index]
   })
   for(var event in temp){
-      if(temp[target-event] !== undefined){
-          return [temp[event],temp[target-event]]
-      }
+    if(temp[target-event] !== undefined){
+        if(temp[event].length > 1){
+            return [temp[event][0],temp[event][1]]
+        }
+        return [temp[event][0],temp[target-event][0]]
+    }
   }
 }
-log(twoSum([2, 7, 11, 15], 26))
+
+log(twoSum([2, 7, 11, 15], 9))
+log(twoSum([3, 3], 6))
