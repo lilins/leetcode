@@ -10,13 +10,17 @@
   * [枚举法](#枚举法)
   * [枚举排列](#枚举排列)
   * [枚举组合](#枚举组合)
-  * [回溯法]（#回溯法）
+  * [回溯法](#回溯法)
+  * [贪心法](#贪心法)
+  * [动态规划](#动态规划3)
 * [排序算法](#排序算法)
   * [冒泡排序](#冒泡排序)
   * [插入排序](#插入排序)
   * [希尔排序](#希尔排序)
   * [简单选择](#简单选择)
   * [堆排序](#堆排序)
+  * [归并排序](#归并排序)
+  * [快速排序](#快速排序)
 
 ## 数据结构
 
@@ -319,6 +323,155 @@ subset(Array.from(set), set.size, [], 0)
 
 #### 八皇后问题
 
+```js
+const eightQueen = (c, n, current) => {
+  if (current === n) {
+    tot++
+    // console.log(c)
+  } else {
+    for (let i = 0; i < n; i++) {
+      let ok = 1
+      c[current] = i
+      for (let j = 0; j < current; j++) {
+        if (c[current] === c[j] || j - c[j] === current - c[current] || current + c[current] === j + c[j]) {
+          ok = 0
+          break
+        }
+      }
+      if (ok) {
+        eightQueen(c, n, current + 1)
+      }
+    }
+  }
+}
+
+const n = 8
+let c = []
+for (let i = 0; i < n; i++) {
+  c[i] = []
+  for (let j = 0; j < n; j++) {
+    c[i][j] = i + j
+  }
+}
+
+eightQueen(c, n, tot, 0)
+console.log(tot)
+```
+
+#### 素数环
+
+输入正整数 n，把整数 1,2,3,...,n 组成一个环，使得相邻两个整数之和均为素数。
+
+输出时从整数 1 开始逆时针排列。同一个环应恰好输出一次。 n <= 16
+
+```js
+const is_prime = (n) => {
+  for (let i = 2; i <= Math.sqrt(n); i++) {
+    if (n % i === 0 && n != i) {
+      return false
+    }
+  }
+  return true
+}
+
+const dfs = (isp, n, arr, vis, current) => {
+  if(current === n&&isp[arr[0]+arr[current-1]]){
+    console.log(arr)
+  }else{
+    for(let i=2;i<=n;i++){
+      if(isp[arr[current-1]+i]&&vis[i]){
+        arr[current] = i
+        vis[i] = 0
+        dfs(isp, n, arr, vis, current+1)
+        vis[i] = 1
+      }
+    }
+  }
+}
+
+const isPrime = (n) => {
+  let isp = []
+  for (let i = 2; i < n * 2; i++) {
+    isp[i] = is_prime(i)
+  }
+  return isp
+}
+
+const vision = (n) => {
+  let vis = [0]
+  for (let i = 2; i <= n ; i++) {
+    vis[i] = 1
+  }
+  return vis
+}
+
+const main = () => {
+  let n = 16
+  let isp = isPrime(n)
+  let vis = vision(n)
+  dfs(isp, n, [1],vis, 1)
+}
+
+main()
+```
+
+#### 困难的串
+
+如果一个字符串包含两个相邻的重复子串，则称“容易的串”，其他称为“困难的串”。
+
+* 容易的串：BB,ABCDACABCAB
+* 困难的串：D,DC,ABDAB,CBABCBA
+
+输入正整数 n 和 l，输出由前 l 个字符组成、字典序第 k 小的困难的串。
+
+例如：
+
+* 输入
+
+7, 3  
+30, 3
+
+* 输出
+
+ABACABA  
+ABACABCACBABCABACABCACBACABA
+
+```js
+const dfs = (select, l, n, arr, current) => {
+  if (current === n) {
+    console.log(arr)
+    return 0
+  }
+  for (let i = 0; i < l; i++) {
+    arr[current] = select[i]
+    let ok = 1
+    for (let j = 1; j * 2 <= current + 1; j++) {
+      let equal = 1
+      for (let k = 0; k < j; k++) {
+        if (arr[current - k] !== arr[current - k - j]) {
+          equal = 0
+          break
+        }
+      }
+      if (equal) {
+        ok = 0
+        break
+      }
+    }
+    if (ok) {
+      if (!dfs(select, l, n, arr, current + 1)) {
+        return 0
+      }
+    }
+  }
+  return 1
+}
+
+dfs(['A','B','C'], 3, 7, [], 0)
+```
+### 贪心法
+
+
 
 ## 排序算法
 
@@ -421,9 +574,7 @@ const selectSort = (arr) => {
 
 ### 堆排序
 
-* 将待排序的序列构造成一个大顶堆。
-* 此时，整个序列的最大值就是堆顶的根结点。将它移走(其实就是将其与堆数组的末尾元素交换，此时末尾元素就是最大值)，然后将剩余的 n-1 个序列重新构造成一个堆，这样就会得到n个元素的次大值。
-* 如此反复执行，便能得到一个有序序列了
+* 将待排序的序列构造成一个大顶堆。此时，整个序列的最大值就是堆顶的根结点。将它移走(其实就是将其与堆数组的末尾元素交换，此时末尾元素就是最大值)，然后将剩余的 n-1 个序列重新构造成一个堆，这样就会得到n个元素的次大值。如此反复执行，便能得到一个有序序列了
 * 时间复杂度为 O(nlogn),好于冒泡,简单选择,直接插入的O(n^2)
 
 ```js
@@ -458,5 +609,79 @@ const heapSort = (arr) => {
     maxHeapify(arr, 0, i)
   }
   return arr
+}
+```
+
+### 归并排序
+
+* 假设初始序列含有 n 个记录，则可以看成 n 个有序的子序列，每个子序列的长度为 1，然后两两归并，得到（不小于 n/2 的最小整数）个长度为 2 或 1 的有序子序列，再两两归并，如此重复,直至得到一个长度为 n 的有序序列为止,这种排序方法称为 2 路归并排序
+* 时间复杂度为 O(nlogn)，空间复杂度为 O(n+logn)，如果非递归实现归并，则避免了递归时深度为 logn 的栈空间
+* 空间复杂度为 O(n)
+
+```js
+const mergeSort = (array) => {
+  const sort = (array, first, last) => {
+    first = first === undefined ? 0 : first
+    last = last === undefined ? array.length - 1 : last
+    if (last - first < 1) {
+      return;
+    }
+    let middle = Math.floor((first + last) / 2);
+    sort(array, first, middle);
+    sort(array, middle + 1, last);
+    let temp
+    while (first <= middle && middle + 1 <= last) {
+      if (array[first] >= array[middle + 1]) { // 这里使用了插入排序的思想
+        temp = array[middle + 1];
+        for (let i = middle; i >= first; i--) {
+          array[i + 1] = array[i];
+        }
+        array[first] = temp;
+        middle++
+      } else {
+        first++
+      }
+    }
+  }
+  return sort(array);
+}
+```
+
+### 快速排序
+
+* 通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。
+* 时间复杂度为O(nlogn)
+
+```js
+function quickSort(array) {
+	// 交换元素位置
+	function swap(array, i, k) {
+		var temp = array[i];
+		array[i] = array[k];
+		array[k] = temp;
+	}
+	// 数组分区，左小右大
+	function partition(array, left, right) {
+		var storeIndex = left;        
+		var pivot = array[right]; // 直接选最右边的元素为基准元素
+		for (var i = left; i < right; i++) {
+			if (array[i] < pivot) {
+				swap(array, storeIndex, i);
+				storeIndex++; // 交换位置后，storeIndex 自增 1，代表下一个可能要交换的位置
+			}
+		}
+		swap(array, right, storeIndex); // 将基准元素放置到最后的正确位置上
+		return storeIndex;
+	}
+	function sort(array, left, right) {
+		if (left > right) {
+			return;
+		}
+    var storeIndex = partition(array, left, right)
+		sort(array, left, storeIndex - 1);
+		sort(array, storeIndex + 1, right);
+	}
+	sort(array, 0, array.length - 1);
+	return array;
 }
 ```
