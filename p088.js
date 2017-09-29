@@ -14,9 +14,16 @@
 */
 var merge = function (nums1, m, nums2, n) {
   let i = m - 1, j = n - 1, k = m + n - 1;
-  while (i > -1 && j > -1) {
-    nums1[k--] = Math.max(nums1[i], nums2[j])
-    nums1[i] > nums2[j] ? i-- : j--
+  // if(m===0){
+  //   for(let i=0;i<n;i++){
+  //       nums1[i] = nums2[i]
+  //   }
+  // }
+  while (i > -1 || j > -1) {
+    let a = nums1[i] === undefined ? Number.MIN_SAFE_INTEGER : nums1[i]
+    let b = nums2[j] === undefined ? Number.MIN_SAFE_INTEGER : nums2[j]
+    nums1[k--] = Math.max(a, b)
+    a > b ? i-- : j--
   }
   console.log(nums1)
 };
@@ -26,4 +33,6 @@ var merge2 = function (nums1, m, nums2, n) {
   console.log(nums1)
 }
 
-merge([1, 4, 5, 6, 7, 9, 11, 12], 8, [1, 2, 3, 4, 5, 6, 7, 8, 9], 9)
+merge([0],0,[1],1)
+merge([2,0],1,[1],1)
+// merge([1, 4, 5, 6, 7, 9, 11, 12], 8, [1, 2, 3, 4, 5, 6, 7, 8, 9], 9)
