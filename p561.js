@@ -14,7 +14,7 @@ log = common.log
 
 var arrayPairSum = function(nums) {
     var result = 0
-    nums.sort()
+    nums.sort((a,b)=>{return a-b})
     log(nums)
     for(var i = 0; i<nums.length; i=i+2){
       result += nums[i]
@@ -23,3 +23,5 @@ var arrayPairSum = function(nums) {
 }
 
 log(arrayPairSum([1,4,0,6,3,1]))
+
+log(arrayPairSum([6214, -2290, 2833, -7908]))

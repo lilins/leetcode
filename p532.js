@@ -27,6 +27,9 @@ All the integers in the given input belong to the range: [-1e7, 1e7].
  */
 var findPairs = function(nums, k) {
   let count = 0
+  if(k<0){
+    return 0
+  }
   if(k===0){
     nums = nums.sort((a,b)=>{return a - b})
     let temp
