@@ -21,6 +21,7 @@ var containsNearbyDuplicate = function(nums, k) {
     if(result <= k) return true
     index ++
   }
+  console.log(count)
   return false
 };
 

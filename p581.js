@@ -16,7 +16,7 @@ The input array may contain duplicates, so ascending order here means <=.
  * @return {number}
  */
 var findUnsortedSubarray = function(nums) {
-  let oriArr = [].concat(nums)
+  let oriArr = Array.prototype.concat.call([], nums)
   nums.sort((a,b)=>{return a-b})
   let i,j;
   for(i=0,j=nums.length-1;i<=j;){

@@ -31,5 +31,22 @@ var moveZeroes = function(nums) {
   console.log(nums)
 };
 
-moveZeroes([0])
-moveZeroes([0, 1, 0, 0, 0, 0, 3, 12])
+var moveZeroes2 = function(nums) {
+  let count = 0
+  let i = 0
+  while(nums[i] !== undefined){
+    if(nums[i] === 0){
+      nums.splice(i,1)
+      count ++
+    }else{
+      i++
+    }
+  }
+  for(let j=0;j<count;j++){
+    nums.push(0)
+  }
+  console.log(nums)
+};
+
+moveZeroes2([0])
+moveZeroes2([0, 1, 0, 0, 0, 0, 3, 12])
