@@ -16,5 +16,9 @@ A = [3,2,1,0,4], return false.
  * @return {boolean}
  */
 var canJump = function(nums) {
-  
+  let i = 0
+  for(let reach=0;i<nums.length&&i<=reach;++i){
+      reach = Math.max(i + nums[i], reach)
+  }
+  return i === nums.length
 };
