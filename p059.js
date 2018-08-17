@@ -17,44 +17,51 @@ You should return the following matrix:
  * @return {number[][]}
  */
 var generateMatrix = function (n) {
-  let matrix = [];
+  let matrix = []
 
-  // Edge Case
-  if (n == 0) {
-    return matrix;
-  }
-
-  // Normal Case
-  let rowStart = 0;
-  let rowEnd = n - 1;
-  let colStart = 0;
-  let colEnd = n - 1;
-  let num = 1; //change
-  while (rowStart <= rowEnd && colStart <= colEnd) {
-    for (let i = colStart; i <= colEnd; i++) {
-      matrix[rowStart][i] = num++; //change
+  let num = 1
+  let level = Math.floor(Math.ceil(n / 2))
+  /**
+	 * -> -> ->
+	 * ^      |
+	 * |      |
+	 * <- <-- V
+	 * 
+	 * # # # #
+	 * %     $
+	 * %     $
+	 * & & & $
+	 *     
+	 */
+  for (let i = 0; i < level; i++) {
+    // top left -> right, shown as #
+    for (let j = i; j < n - i; j++) {
+      matrix = newArray(matrix, i)
+      matrix[i][j] = num++;
     }
-    rowStart++;
-    for (let i = rowStart; i <= rowEnd; i++) {
 
-      matrix[i][colEnd] = num++; //change
+    // top right + 1 -> bot, shown as $
+    for (let j = i + 1; j < n - i; j++) {
+      matrix = newArray(matrix, j)
+      matrix[j][n - i - 1] = num++;
     }
-    colEnd--;
 
-    for (let i = colEnd; i >= colStart; i--) {
-      if (rowStart <= rowEnd)
-        matrix[rowEnd][i] = num++; //change
-    }
-    rowEnd--;
+    // bot right - 1 -> left, shown as &
+    for (let j = n - i - 2; j >= i; j--)
+      matrix[n - i - 1][j] = num++;
 
-    for (let i = rowEnd; i >= rowStart; i--) {
-      if (colStart <= colEnd)
-        matrix[i][colStart] = num++; //change
-    }
-    colStart++;
+    // bot left -1 -> top + 1, shown as %
+    for (let j = n - i - 2; j > i; j--)
+      matrix[j][i] = num++;
   }
   console.log(matrix)
   return matrix;
 };
 
-generateMatrix(3)
+function newArray(arr, i) {
+  if (arr[i] === undefined)
+    arr[i] = []
+  return arr
+}
+
+generateMatrix(4)
