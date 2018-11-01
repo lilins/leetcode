@@ -30,7 +30,44 @@ Output: 28
  * @param {number} n
  * @return {number}
  */
+
 var uniquePaths = function (m, n) {
+  function factorial(x) {
+    if (typeof x !== 'number' || x !== x) throw TypeError();
+    if (x < 0) throw RangeError();
+    if (x == 0) return 1;
+    return x * factorial(x - 1);
+  }
+  return factorial(m + n - 2) / factorial(m - 1) / factorial(n - 1);
+};
+
+/**
+ * 动态规划
+ */
+
+var uniquePaths2 = function (m, n) {
+  var res = []
+  for (let i = 0; i < m; i++) {
+    res[i] = []
+    for (let j = 0; j < n; j++) {
+      res[i][j] = 1
+    }
+  }
+  for (let i = 1; i < m; i++) {
+    for (let j = 1; j < n; j++) {
+      res[i][j] = res[i - 1][j] + res[i][j - 1]
+    }
+  }
+  console.log(res)
+  return res[m - 1][n - 1]
+};
+
+
+/**
+ * 递归求解
+ */
+
+var uniquePaths3 = function (m, n) {
   findPath(1, 1, m, n)
   return road
 };
@@ -55,4 +92,4 @@ var findPath = function (i, j, m, n) {
   }
 }
 
-console.log(uniquePaths(7, 3))
+console.log(uniquePaths2(7, 3))
